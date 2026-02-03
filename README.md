@@ -10,4 +10,5 @@ setting up project
    Event api, factory, seeder, authorization,
 
 
-
+- Feb. 2. 13:45 - 15:00
+    Frontend scaffolding

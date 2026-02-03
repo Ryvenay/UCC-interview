@@ -2,6 +2,7 @@
 
 - Laravel docs
 - https://www.digitalocean.com/community/tutorials/simple-laravel-crud-with-resource-controllers
+- Vue docs
 
 
 # Tools
