@@ -1,11 +1,15 @@
 import api from '@/api/client';
 
-export async function login(email, password) {
+export async function loginRequest(email, password) {
   const { data } = await api.post('/auth/login', { email, password });
-  localStorage.setItem('token', data.token);
-  return data.user;
+
+  return {
+    token: data.token,
+    user: data.user,
+  };
 }
 
-export function logout() {
-  localStorage.removeItem('token');
+export async function fetchMe() {
+  const { data } = await api.get('/user');
+  return data;
 }

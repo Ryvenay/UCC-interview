@@ -12,3 +12,8 @@ setting up project
 
 - Feb. 2. 13:45 - 15:00
     Frontend scaffolding
+
+- Feb. 4. 16:30 -  18:30
+    event editing 
+
+- Feb. 6 0:00 -

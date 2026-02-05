@@ -58,6 +58,8 @@ class EventController extends Controller
         Gate::authorize('update', $event);
 
         $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'occurrence' => 'required|date',
             'description' => 'nullable|string',
         ]);
 

@@ -5,12 +5,16 @@ import Button from 'primevue/button';
 import { deleteEvent } from "@/api/events";
 
 const props = defineProps(['events'])
-const emit = defineEmits(['event-updated'])
+const emit = defineEmits(['event-updated', 'edit-event'])
 
 
 async function removeEvent(id) {
   await deleteEvent(id);
   emit('event-updated')
+}
+
+async function editEvent(data) {
+  emit('edit-event', data)
 }
 
 </script>
@@ -25,6 +29,7 @@ async function removeEvent(id) {
         <Button
           icon="pi pi-pencil"
           class="p-button-text"
+          @click="editEvent(data)"
         />
         <Button
           icon="pi pi-trash"

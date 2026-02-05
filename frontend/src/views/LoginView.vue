@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from "vue";
-import { login } from "@/auth/auth";
+import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import Card from "primevue/card";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import Message from "primevue/message";
+
+const auth = useAuthStore();
 
 const email = ref("");
 const password = ref("");
@@ -13,8 +15,9 @@ const error = ref(null);
 const router = useRouter();
 
 async function submit() {
+  error.value = null;
   try {
-    await login(email.value, password.value);
+    await auth.login(email.value, password.value);
     router.push("/");
   } catch (e) {
     error.value = "Invalid credentials";
