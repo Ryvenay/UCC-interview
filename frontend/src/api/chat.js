@@ -15,6 +15,10 @@ export function getChat() {
   return api.get(`/chat/`);
 }
 
-export function transferToHuman() {
+export function transferToHuman(chatId) {
   return api.post(`/chats/${chatId}/transfer`);
+}
+
+export function getChats(params) {
+  return api.get('/chats', { params });
 }

@@ -6,6 +6,7 @@ import ForgotPassword from '@/views/ForgotPassword.vue';
 import ResetLinkSent from '@/views/ResetLinkSent.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
 import ChatView from '@/views/ChatView.vue';
+import Helpdesk from '@/views/Helpdesk.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,6 +39,11 @@ const router = createRouter({
     {
       path: '/helpdesk',
       component: ChatView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/admin/helpdesk',
+      component: Helpdesk,
       meta: { requiresAuth: true },
     },
   ],

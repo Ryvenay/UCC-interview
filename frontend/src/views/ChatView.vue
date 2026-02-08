@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { fetchChatMessages, sendChatMessage, getChat } from "@/api/chat";
+import { fetchChatMessages, sendChatMessage, getChat, transferToHuman } from "@/api/chat";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 
@@ -51,6 +51,17 @@ async function sendMessage() {
   }
 }
 
+async function requestHuman() {
+  try {
+    const { data } = await transferToHuman(chat_id.value)
+    alert(data.message);
+  }
+  catch (e) {
+    console.log(e)
+    alert('Failed to transfer chat');
+  }
+}
+
 async function prepare() {
   const { data } = await getChat();
   chat_id.value = data.chat_id
@@ -88,6 +99,7 @@ onBeforeUnmount(() => {
     <div class="chat-input flex border-t border-gray-200 p-2 gap-2">
       <InputText v-model="newMessage" placeholder="Type your message..." class="flex-1" />
       <Button label="Send" icon="pi pi-send" @click="sendMessage" />
+      <Button label="Request human" icon="pi pi-user" @click="requestHuman" />
     </div>
 
     <div v-if="error" class="text-red-500 text-sm p-2">{{ error }}</div>
