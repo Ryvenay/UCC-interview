@@ -8,11 +8,11 @@ import Button from "primevue/button";
 import Message from "primevue/message";
 
 const auth = useAuthStore();
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
 const error = ref(null);
-const router = useRouter();
 
 async function submit() {
   error.value = null;
@@ -35,26 +35,18 @@ async function submit() {
       <template #content>
         <form @submit.prevent="submit" class="login-form w-100 grid grid-cols-1 gap-4 pt-4">
           <div class="field">
-            <InputText
-              id="email"
-              type="email"
-              placeholder="Email"
-              v-model="email"
-              class="w-full"
-            />
+            <InputText id="email" type="email" placeholder="Email" v-model="email" class="w-full" />
           </div>
 
           <div class="field">
-            <InputText
-              id="password"
-              type="password"
-              placeholder="Password"
-              v-model="password"
-              class="w-full"
-            />
+            <InputText id="password" type="password" placeholder="Password" v-model="password" class="w-full" />
           </div>
 
           <Button label="Login" type="submit" class="w-full" />
+
+          <div>
+            <a href="/forgot-password">Forgot password</a>
+          </div>
 
           <Message v-if="error" severity="error" class="mt-3">
             {{ error }}
@@ -72,6 +64,4 @@ async function submit() {
   justify-content: center;
   align-items: center;
 }
-
-
 </style>

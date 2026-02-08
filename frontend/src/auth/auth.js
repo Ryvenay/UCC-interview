@@ -13,3 +13,14 @@ export async function fetchMe() {
   const { data } = await api.get('/user');
   return data;
 }
+
+export async function forgotPassword(email) {
+  const { data } = await api.post('/auth/forgot-password', { email });
+
+  return data;
+}
+
+export async function resetPassword(data) {
+  return await api.post('/auth/reset-password', data);
+
+}

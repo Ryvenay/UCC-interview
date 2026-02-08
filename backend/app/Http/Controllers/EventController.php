@@ -18,7 +18,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        return Auth::user()->events()->latest()->get()->toResourceCollection();
+        return Auth::user()->events()->orderBy('occurrence', 'asc')->get()->toResourceCollection();
     }
 
     /**

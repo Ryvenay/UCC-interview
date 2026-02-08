@@ -30,3 +30,13 @@
 - Simple database field for user level in user model
 - Pros: simple to implement and, good for basic use cases
 - Unable to handle complex authorization processes, like roles and permissions. For that, spatie/permissions would be better.
+
+
+# LLM
+- Works well on Apple Silicon (M‑series) without GPU setup.
+- Acts as a local REST API, so integrating with your Laravel helpdesk backend is easy.
+- Minimal installation and dependency complexity.
+
+“I chose Ollama because it easily runs locally in Docker on my Mac, doesn’t require external API keys, and exposes an API similar to OpenAI.”
+✅ “This allows the helpdesk system to generate intelligent responses without calling external services.”
+✅ “The Docker container is easy to start and works well with the rest of my stack.”

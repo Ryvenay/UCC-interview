@@ -51,6 +51,24 @@ services:
     networks:
       - eventapp
 
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit-eventapp
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - eventapp
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    ports:
+      - "11434:11434"
+    networks:
+      - eventapp
+
 volumes:
   postgres_data:
 
