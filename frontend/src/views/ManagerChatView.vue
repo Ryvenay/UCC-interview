@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { fetchChatMessages, sendChatMessage, getChat, transferToHuman } from "@/api/chat";
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useRoute } from 'vue-router';
+import { fetchChatMessages, sendManagerChatMessage } from "@/api/chat";
 import ChatComponent from "@/components/ChatComponent.vue";
-import Button from "primevue/button";
 
-const chat_id = ref(null);
-const chat = ref(null);
+const route = useRoute();
+const chat_id = route.params.id;
+
 
 const messages = ref([]);
 const error = ref(null);
@@ -19,7 +20,7 @@ async function loadMessages() {
 
   try {
     loading.value = true;
-    const { data } = await fetchChatMessages(chat_id.value, latest);
+    const { data } = await fetchChatMessages(chat_id, latest);
     messages.value = data.data.messages;
   } catch (e) {
     error.value = "Failed to load messages.";
@@ -28,34 +29,24 @@ async function loadMessages() {
   }
 }
 
+
 async function sendMessage(message) {
   if (!message.trim()) return;
   try {
-    const { data } = await sendChatMessage(chat_id.value, message);
+    const { data } = await sendManagerChatMessage(chat_id, message);
     loadMessages();
   } catch (e) {
     error.value = "Failed to send message.";
   }
 }
 
-async function requestHuman() {
-  try {
-    const { data } = await transferToHuman(chat_id.value);
-    alert(data.message);
-  } catch (e) {
-    alert("Failed to transfer chat");
-  }
-}
 
 async function prepare() {
-  const { data } = await getChat();
-  chat_id.value = data.id;
-  chat.value = data;
   loadMessages();
 }
 
 onMounted(() => {
-  prepare();
+  prepare()
 
   pollingInterval = setInterval(loadMessages, 1000); // poll every second
 });
@@ -63,19 +54,19 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearInterval(pollingInterval);
 });
+
 </script>
 
 <template>
   <div class="chat-wrapper flex flex-col border rounded-lg w-full mt-8">
     <!-- Chat header -->
     <div class="chat-header px-4 py-2 font-bold flex items-center justify-between">
-      <div>Helpdesk Chat</div>
-      <div v-if="chat?.transfer_to_human">Human agent</div>
-      <Button v-else label="Request human" icon="pi pi-user" @click="requestHuman" />
+      <div>Manager Helpdesk Chat</div>
     </div>
 
     <ChatComponent :messages="messages" @message:send="sendMessage" />
   </div>
+
 </template>
 
 <style scoped>

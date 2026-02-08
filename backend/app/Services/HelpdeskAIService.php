@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Chat;
 use Illuminate\Support\Facades\Http;
 
 class HelpdeskAIService
@@ -12,9 +11,8 @@ class HelpdeskAIService
 
     public function __construct()
     {
-        // Ollama container URL
-        $this->host = env('OLLAMA_HOST', 'http://localhost');
-        $this->port = env('OLLAMA_PORT', '11434');
+        $this->host = config('ollama.host');
+        $this->port = config('ollama.port');
     }
 
     /**

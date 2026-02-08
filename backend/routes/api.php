@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\ChatStreamController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MessageController;
 use App\Models\User;
@@ -81,4 +80,6 @@ Route::get('/chats/{chat}', [MessageController::class, 'show']);
 Route::get('/chat', [MessageController::class, 'createOrGet']);
 Route::post('/chats/{chat}/transfer', [MessageController::class, 'transferToHuman']);
 
-Route::middleware(['auth:sanctum'])->get('/chats', [ChatController::class, 'index']);
+Route::get('/admin/chats', [ChatController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/admin/chats/{chat}/messages', [ChatController::class, 'send'])->middleware('auth:sanctum');
+Route::get('admin/chats/{chat}', [ChatController::class, 'show'])->middleware('auth:sanctum');

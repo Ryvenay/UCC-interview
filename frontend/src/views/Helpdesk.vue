@@ -25,8 +25,6 @@ async function fetchChats() {
 
     const { data } = await getChats(params);
 
-    console.log(data)
-
     chats.value = data.data.map(chat => ({
       ...chat,
       lastMessage: chat.messages.length
@@ -39,7 +37,7 @@ async function fetchChats() {
 }
 
 function viewChat(chatId) {
-  router.push(`/manager/chats/${chatId}`);
+  router.push(`/admin/helpdesk/chats/${chatId}`);
 }
 
 onMounted(fetchChats);
@@ -64,7 +62,7 @@ onMounted(fetchChats);
     <DataTable :value="chats" stripedRows responsiveLayout="scroll" class="w-full">
       <Column field="id" header="Chat ID" style="width: 100px"/>
       <Column field="user.name" header="Customer"/>
-      <Column field="agent.name" header="Assigned Agent"/>
+      <Column field="transfer_to_human" header="Human Agent"/>
       <Column field="status" header="Status"/>
       <Column field="lastMessage" header="Last Message" style="max-width: 300px">
         <template #body="{ data }">

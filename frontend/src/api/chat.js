@@ -20,5 +20,9 @@ export function transferToHuman(chatId) {
 }
 
 export function getChats(params) {
-  return api.get('/chats', { params });
+  return api.get('/admin/chats', { params });
+}
+
+export function sendManagerChatMessage(chatId, message) {
+  return api.post(`/admin/chats/${chatId}/messages`, { message });
 }

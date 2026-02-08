@@ -1,13 +1,22 @@
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick, watch } from "vue";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 
 const props = defineProps(['messages'])
+const emit = defineEmits(['message:send'])
 
+const chatContainer = ref(null);
 const newMessage = ref("");
+const error = ref(null);
 
-async function sendmessage()
-{
+async function sendMessage() {
+  if (!newMessage.value.trim()) return;
 
+  emit('message:send', newMessage.value);
+  newMessage.value = "";
+  await nextTick();
+  scrollToBottom();
 }
 
 function scrollToBottom() {
@@ -16,32 +25,36 @@ function scrollToBottom() {
   }
 }
 
+watch(
+  () => props.messages,
+  async () => {
+    await nextTick();
+    scrollToBottom();
+  },
+  { deep: true }
+);
+
 </script>
 
 
 <template>
-  <div class="chat-wrapper flex flex-col border rounded-lg w-full mt-8">
-    <!-- Chat header -->
-    <div class="chat-header px-4 py-2 font-bold">Helpdesk Chat</div>
-
-    <!-- Chat messages -->
-    <div class="chat-messages flex-1 overflow-y-auto p-4 space-y-2" ref="chatContainer">
-      <div v-for="(msg, index) in messages" :key="index" :class="msg.role === 'user' ? 'text-right' : 'text-left'">
-        <div :class="msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-900'"
-          class="inline-block px-3 py-2 rounded-lg max-w-[70%] break-words">
-          {{ msg.content }}
-        </div>
+  <!-- Chat messages -->
+  <div class="chat-messages flex-1 overflow-y-auto p-4 space-y-2" ref="chatContainer">
+    <div v-for="(msg, index) in props.messages" :key="index" :class="msg.role === 'user' ? 'text-right' : 'text-left'">
+      <div :class="msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-900'"
+        class="inline-block px-3 py-2 rounded-lg max-w-[70%] break-words">
+        {{ msg.content }}
       </div>
     </div>
-
-    <!-- Input field -->
-    <div class="chat-input flex border-t border-gray-200 p-2 gap-2">
-      <InputText v-model="newMessage" placeholder="Type your message..." class="flex-1" />
-      <Button label="Send" icon="pi pi-send" @click="sendMessage" />
-    </div>
-
-    <div v-if="error" class="text-red-500 text-sm p-2">{{ error }}</div>
   </div>
+
+  <!-- Input field -->
+  <div class="chat-input flex border-t border-gray-200 p-2 gap-2">
+    <InputText v-model="newMessage" placeholder="Type your message..." class="flex-1" />
+    <Button label="Send" icon="pi pi-send" @click="sendMessage" />
+  </div>
+
+  <div v-if="error" class="text-red-500 text-sm p-2">{{ error }}</div>
 </template>
 
 <style scoped>

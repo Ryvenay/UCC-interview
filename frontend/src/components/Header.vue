@@ -46,7 +46,7 @@ const items = computed(() => {
     <Menubar :model="items">
       <template #start>
         <div class="text-primary font-bold text-xl mx-6">
-          Event app
+          EventApp
         </div>
       </template>
     </Menubar>
